@@ -6,11 +6,6 @@ Java8 utilities powered by Lombok
 
 ```java
 @Value
-public static class Employee {
-    @NonNull String name;
-}
-
-@Value
 public static class Company {
     @NonNull List<Employee> employees;
 }
