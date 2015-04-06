@@ -12,7 +12,7 @@ public static class Company {
 
 @Value
 @ExtensionMethod(ListExtensions.class)
-public class EnployeeFinderService {
+public class EmployeeFinderService {
 
     CompanyRepository repository;
 
