@@ -6,7 +6,7 @@ Java8 utilities powered by Lombok
 
 ```java
 @Value
-public static class Company {
+public class Company {
     @NonNull List<Employee> employees;
 }
 
