@@ -3,8 +3,7 @@ package jp.t2v.xanadu.ops;
 import lombok.experimental.UtilityClass;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 /**
@@ -51,6 +50,26 @@ public class OptionalOps {
 
     public <T> Stream<T> stream(final Optional<T> self) {
         return fold(self, Stream::empty, Stream::of);
+    }
+
+    public <A> boolean allMatch(final Optional<A> self, final Predicate<? super A> p) {
+        return stream(self).allMatch(p);
+    }
+
+    public <A> boolean anyMatch(final Optional<A> self, final Predicate<? super A> p) {
+        return stream(self).anyMatch(p);
+    }
+
+    public <A, B, C> Optional<C> map2(final Optional<A> self, final Optional<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+        return self.flatMap(a -> other.map(b -> f.apply(a, b)));
+    }
+
+    public <A> List<Optional<A>> sequenceL(final Optional<List<? extends A>> self) {
+        return traverseL(self, Function.identity());
+    }
+
+    public <A, B> List<Optional<B>> traverseL(final Optional<A> self, Function<? super A, ? extends List<? extends B>> f) {
+        return fold(self, ArrayList::new, e -> ListOps.map(f.apply(e), Optional::of));
     }
 
 }
