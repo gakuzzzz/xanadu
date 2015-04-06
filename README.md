@@ -14,7 +14,7 @@ public static class Company {
 @ExtensionMethod(ListExtensions.class)
 public class EmployeeFinderService {
 
-    CompanyRepository repository;
+    @NonNull CompanyRepository repository;
 
     public List<Employee> findAllEmployees() {
         final List<Company> companies = repository.asList();
