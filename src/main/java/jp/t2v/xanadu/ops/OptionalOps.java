@@ -1,4 +1,4 @@
-package jp.t2v.xanadu.exts;
+package jp.t2v.xanadu.ops;
 
 import lombok.experimental.UtilityClass;
 
@@ -11,8 +11,8 @@ import java.util.stream.Stream;
  * This class is expected that is is used with @ExtensionMethod.
  *
  * <pre><code>
- * @ExtensionMethod(OptionalExtensions.class)
- * public class OptionalExtensionsTest {
+ * @ExtensionMethod(OptionalOps.class)
+ * public class Foo {
  *
  *   public void main() {
  *       Optional&lt;String&gt; a = Optional.of("aaa");
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  * </code></pre>
  */
 @UtilityClass
-public class OptionalExtensions {
+public class OptionalOps {
 
     @SuppressWarnings("unchecked")
     public <T> Optional<T> or(final Optional<T> self, final Optional<? extends T> other) {

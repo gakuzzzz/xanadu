@@ -1,4 +1,4 @@
-package jp.t2v.xanadu.exts;
+package jp.t2v.xanadu.ops;
 
 
 import lombok.Value;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(StreamExtensions.class)
+@ExtensionMethod(StreamOps.class)
 @RunWith(JUnit4.class)
-public class StreamExtensionsTest {
+public class StreamOpsTest {
 
     @Value
     public static class Message {

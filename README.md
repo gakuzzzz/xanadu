@@ -11,7 +11,7 @@ public class Company {
 }
 
 @Value
-@ExtensionMethod(ListExtensions.class)
+@ExtensionMethod(ListOps.class)
 public class EmployeeFinderService {
 
     @NonNull CompanyRepository repository;

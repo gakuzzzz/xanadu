@@ -1,4 +1,4 @@
-package jp.t2v.xanadu.exts;
+package jp.t2v.xanadu.ops;
 
 
 import lombok.experimental.ExtensionMethod;
@@ -13,9 +13,9 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(OptionalExtensions.class)
+@ExtensionMethod(OptionalOps.class)
 @RunWith(JUnit4.class)
-public class OptionalExtensionsTest {
+public class OptionalOpsTest {
 
     @Test
     public void when_A_is_Present_A_or_B_is_A() {

@@ -1,4 +1,4 @@
-package jp.t2v.xanadu.exts;
+package jp.t2v.xanadu.ops;
 
 
 import lombok.Value;
@@ -15,9 +15,9 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(ListExtensions.class)
+@ExtensionMethod(ListOps.class)
 @RunWith(JUnit4.class)
-public class ListExtensionsTest {
+public class ListOpsTest {
 
     @Value
     public static class Message {
