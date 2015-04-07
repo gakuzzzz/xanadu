@@ -2,15 +2,11 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 version = '1.0'
+def srcJava = 'src/main/java'
+def srcDelomboked = 'build/src-delomboked/main/java'
 
 configurations {
     provided
-}
-
-sourceSets {
-    main.compileClasspath += configurations.provided
-    test.compileClasspath += configurations.provided
-    test.runtimeClasspath += configurations.provided
 }
 
 repositories {
@@ -21,4 +17,33 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.hamcrest:java-hamcrest:2.0.0.0"
     provided "org.projectlombok:lombok:1.16.2"
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+task delombok {
+    inputs.files file(srcJava)
+    outputs.dir file(srcDelomboked)
+
+    doLast {
+        FileCollection collection = files(configurations.compile)
+        FileCollection sumTree = collection + fileTree(dir: 'bin')
+
+        ant.taskdef(name: 'delombok', classname: 'lombok.delombok.ant.Tasks$Delombok', classpath: configurations.provided.asPath)
+        ant.delombok(from:srcJava, to:srcDelomboked, classpath: sumTree.asPath)
+    }
+}
+
+javadoc {
+    dependsOn delombok
+    source = srcDelomboked
+    classpath = sourceSets.main.compileClasspath
+    options {
+        links "https://docs.oracle.com/javase/8/docs/api/"
+        links "http://projectlombok.org/api/"
+    }
 }

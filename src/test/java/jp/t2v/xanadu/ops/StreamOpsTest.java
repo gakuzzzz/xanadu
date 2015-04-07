@@ -1,7 +1,7 @@
 package jp.t2v.xanadu.ops;
 
 
-import lombok.Value;
+import jp.t2v.xanadu.model.Message;
 import lombok.experimental.ExtensionMethod;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @ExtensionMethod(StreamOps.class)
 @RunWith(JUnit4.class)
 public class StreamOpsTest {
-
-    @Value
-    public static class Message {
-        Optional<String> title;
-    }
 
     @Test
     public void flatMapO() {

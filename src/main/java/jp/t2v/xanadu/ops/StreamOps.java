@@ -24,8 +24,8 @@ public class StreamOps {
         return self.map(f).flatMap(i -> StreamSupport.stream(i.spliterator(), false));
     }
 
-    public <A, B, C> Stream<C> map2(final Stream<A> self, final Stream<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
-        return self.flatMap(a -> other.<C>map(b -> f.apply(a, b)));
+    public <A, B, C> Stream<C> map2I(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+        return self.flatMap(a -> IterableOps.<B>stream(other).<C>map(b -> f.apply(a, b)));
     }
 
     public <T, C extends Collection<T>> C toCollection(final Stream<? extends T> self, final Supplier<C> collectionFactory) {

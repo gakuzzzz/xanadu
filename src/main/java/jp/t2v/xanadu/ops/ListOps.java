@@ -30,7 +30,7 @@ public class ListOps {
     }
 
     public <A, B, C> List<C> map2(final List<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
-        return StreamOps.map2(self.stream(), IterableOps.stream(other), f).collect(Collectors.toList());
+        return StreamOps.map2I(self.stream(), other, f).collect(Collectors.toList());
     }
 
     public <A, B extends Iterable<? extends A>> List<A> flatten(final List<B> self) {
@@ -71,7 +71,7 @@ public class ListOps {
         return sentinel;
     }
 
-    public <A> Optional<List<A>> sequenceO(final List<Optional<? extends A>> self) {
+    public <A, B extends A> Optional<List<A>> sequenceO(final List<Optional<B>> self) {
         return traverseO(self, Function.identity());
     }
 

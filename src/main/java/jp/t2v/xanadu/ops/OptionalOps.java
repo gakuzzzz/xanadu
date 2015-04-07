@@ -7,21 +7,7 @@ import java.util.function.*;
 import java.util.stream.Stream;
 
 /**
- * This class is expected that is is used with @ExtensionMethod.
- *
- * <pre><code>
- * @ExtensionMethod(OptionalOps.class)
- * public class Foo {
- *
- *   public void main() {
- *       Optional&lt;String&gt; a = Optional.of("aaa");
- *       Optional&lt;String&gt; b = Optional.of("bbb");
- *
- *       Optional&lt;String&gt; result = a.or(b);
- *   }
- *
- * }
- * </code></pre>
+ * This class is expected that is is used with {@link lombok.experimental.ExtensionMethod}.
  */
 @UtilityClass
 public class OptionalOps {
@@ -36,12 +22,12 @@ public class OptionalOps {
         return (Optional<A>) (self.isPresent() ? self : other.get());
     }
 
-    public <T> boolean isAbsent(final Optional<T> self) {
+    public <T> boolean isEmpty(final Optional<T> self) {
         return !self.isPresent();
     }
 
-    public <T> void ifAbsent(final Optional<T> self, final Runnable procedure) {
-        if (isAbsent(self)) procedure.run();
+    public <T> void ifEmpty(final Optional<T> self, final Runnable procedure) {
+        if (isEmpty(self)) procedure.run();
     }
 
     public <A, B> B fold(final Optional<A> self, final Supplier<? extends B> absent, final Function<? super A, ? extends B> present) {
