@@ -16,25 +16,23 @@ import java.util.stream.StreamSupport;
 @UtilityClass
 public class StreamOps {
 
-    @SuppressWarnings("unchecked")
     public <A, B> Stream<B> flatMapO(final Stream<A> self, Function<? super A, Optional<? extends B>> f) {
         return self.map(f).flatMap(OptionalOps::stream);
     }
 
-    @SuppressWarnings("unchecked")
-    public <A, B> Stream<B> flatMapI(final Stream<A> self, Function<? super A, ? extends Iterable<? extends B>> f) {
-        return self.map(f).flatMap(i -> StreamSupport.stream((Spliterator<B>) i.spliterator(), false));
+    public <A, B, C extends Iterable<? extends B>> Stream<B> flatMapI(final Stream<A> self, Function<? super A, C> f) {
+        return self.map(f).flatMap(i -> StreamSupport.stream(i.spliterator(), false));
     }
 
     public <A, B, C> Stream<C> map2(final Stream<A> self, final Stream<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
         return self.flatMap(a -> other.<C>map(b -> f.apply(a, b)));
     }
 
-    public <T, C extends Collection<T>> C toCollection(final Stream<T> self, final Supplier<C> collectionFactory) {
+    public <T, C extends Collection<T>> C toCollection(final Stream<? extends T> self, final Supplier<C> collectionFactory) {
         return self.collect(Collectors.toCollection(collectionFactory));
     }
 
-    public <T> List<T> toList(final Stream<T> self) {
+    public <T> List<T> toList(final Stream<? extends T> self) {
         return toCollection(self, ArrayList::new);
     }
 

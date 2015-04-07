@@ -27,13 +27,13 @@ import java.util.stream.Stream;
 public class OptionalOps {
 
     @SuppressWarnings("unchecked")
-    public <T> Optional<T> or(final Optional<T> self, final Optional<? extends T> other) {
-        return self.isPresent() ? self : (Optional<T>) other;
+    public <A> Optional<A> or(final Optional<? extends A> self, final Optional<? extends A> other) {
+        return (Optional<A>) (self.isPresent() ? self : other);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Optional<T> orGet(final Optional<T> self, final Supplier<Optional<? extends T>> other) {
-        return self.isPresent() ? self : (Optional<T>) other.get();
+    public <A> Optional<A> orGet(final Optional<? extends A> self, final Supplier<Optional<? extends A>> other) {
+        return (Optional<A>) (self.isPresent() ? self : other.get());
     }
 
     public <T> boolean isAbsent(final Optional<T> self) {
@@ -48,7 +48,7 @@ public class OptionalOps {
         return self.map(present).orElseGet(absent);
     }
 
-    public <T> Stream<T> stream(final Optional<T> self) {
+    public <T> Stream<T> stream(final Optional<? extends T> self) {
         return fold(self, Stream::empty, Stream::of);
     }
 
@@ -70,6 +70,11 @@ public class OptionalOps {
 
     public <A, B> List<Optional<B>> traverseL(final Optional<A> self, Function<? super A, ? extends List<? extends B>> f) {
         return fold(self, ArrayList::new, e -> ListOps.map(f.apply(e), Optional::of));
+    }
+
+    @SuppressWarnings("unchecked")
+    public <A> Optional<A> flatten(final Optional<Optional<? extends A>> self) {
+        return self.flatMap(o -> (Optional<A>) o);
     }
 
 }

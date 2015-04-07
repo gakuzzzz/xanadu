@@ -10,7 +10,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This class is expected that is is used with @ExtensionMethod.
@@ -18,8 +17,7 @@ import java.util.stream.Stream;
 @UtilityClass
 public class ListOps {
 
-    @SuppressWarnings("unchecked")
-    public <A, B> List<B> flatMap(final List<A> self, final Function<? super A, ? extends Iterable<? extends B>> f) {
+    public <A, B, C extends Iterable<? extends B>> List<B> flatMap(final List<A> self, final Function<? super A, C> f) {
         return StreamOps.flatMapI(self.stream(), f).collect(Collectors.toList());
     }
 
@@ -35,6 +33,10 @@ public class ListOps {
         return StreamOps.map2(self.stream(), IterableOps.stream(other), f).collect(Collectors.toList());
     }
 
+    public <A, B extends Iterable<? extends A>> List<A> flatten(final List<B> self) {
+        return flatMap(self, Function.identity());
+    }
+
     public <A> boolean allMatch(final List<A> self, final Predicate<? super A> p) {
         return self.stream().allMatch(p);
     }
@@ -43,19 +45,21 @@ public class ListOps {
         return self.stream().anyMatch(p);
     }
 
-    public <A> Optional<A> maxBy(final List<A> self, final Comparator<? super A> c) {
-        return self.stream().max(c);
+    @SuppressWarnings("unchecked")
+    public <A> Optional<A> maxBy(final List<? extends A> self, final Comparator<? super A> c) {
+        return (Optional<A>) self.stream().max(c);
     }
 
-    public <A> Optional<A> minBy(final List<A> self, final Comparator<? super A> c) {
-        return self.stream().min(c);
+    @SuppressWarnings("unchecked")
+    public <A> Optional<A> minBy(final List<? extends A> self, final Comparator<? super A> c) {
+        return (Optional<A>) self.stream().min(c);
     }
 
-    public <A extends Comparable<A>> Optional<A> max(final List<A> self) {
+    public <A extends Comparable<? super A>> Optional<A> max(final List<? extends A> self) {
         return maxBy(self, Comparator.naturalOrder());
     }
 
-    public <A extends Comparable<A>> Optional<A> min(final List<A> self) {
+    public <A extends Comparable<? super A>> Optional<A> min(final List<? extends A> self) {
         return minBy(self, Comparator.naturalOrder());
     }
 
