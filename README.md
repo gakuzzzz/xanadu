@@ -4,22 +4,36 @@ Java8 utilities powered by Lombok
 
 ## Example
 
-```java
-@Value
-public class Company {
-    @NonNull List<Employee> employees;
-}
+### without Xanadu
 
-@Value
+```java
+public class EmployeeFinderService {
+
+    public List<Employee> findAllEmployees() {
+        final List<Company> companies = ...
+        return companies.stream()
+            .map(Company::getEmployees)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    }
+
+    ...
+
+}
+```
+
+### with Xanadu
+
+```java
 @ExtensionMethod(ListOps.class)
 public class EmployeeFinderService {
 
-    @NonNull CompanyRepository repository;
-
     public List<Employee> findAllEmployees() {
-        final List<Company> companies = repository.asList();
+        final List<Company> companies = ...
         return companies.flatMap(Company::getEmployees);
     }
+
+    ...
 
 }
 ```
