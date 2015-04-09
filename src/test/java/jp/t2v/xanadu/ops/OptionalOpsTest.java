@@ -1,6 +1,7 @@
 package jp.t2v.xanadu.ops;
 
 
+import jp.t2v.xanadu.Xanadu;
 import jp.t2v.xanadu.model.Hierarchy.*;
 import lombok.experimental.ExtensionMethod;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(OptionalOps.class)
+@ExtensionMethod(Xanadu.class)
 @RunWith(JUnit4.class)
 public class OptionalOpsTest {
 

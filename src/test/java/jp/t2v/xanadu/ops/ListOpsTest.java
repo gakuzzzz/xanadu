@@ -1,6 +1,7 @@
 package jp.t2v.xanadu.ops;
 
 
+import jp.t2v.xanadu.Xanadu;
 import jp.t2v.xanadu.model.Company;
 import jp.t2v.xanadu.model.Employee;
 import jp.t2v.xanadu.model.Message;
@@ -18,7 +19,7 @@ import jp.t2v.xanadu.model.Hierarchy.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(ListOps.class)
+@ExtensionMethod(Xanadu.class)
 @RunWith(JUnit4.class)
 public class ListOpsTest {
 
@@ -69,5 +70,13 @@ public class ListOpsTest {
         assertThat(result, is(Optional.of(Arrays.asList(b, b))));
     }
 
+    @Test
+    public void when_one_expression_contains_different_types_same_name_ExtensionMethods_it_can_compile() {
+        final List<String> l1 = Arrays.asList("a", "b", "c");
+        final List<String> l2 = Arrays.asList("A", "B", "C");
+
+        final List<String> result = l1.map2(l2, (a, b) -> Optional.of(a).map2(Optional.of(b), (x, y) -> x + y).get);
+        assertThat(result, is(Arrays.asList("aA", "aB", "aC", "bA", "bB", "bC", "cA", "cB", "cC")));
+    }
 
 }
