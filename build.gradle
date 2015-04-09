@@ -47,3 +47,7 @@ javadoc {
         links "http://projectlombok.org/api/"
     }
 }
+
+wrapper {
+    gradleVersion = "2.3"
+}
