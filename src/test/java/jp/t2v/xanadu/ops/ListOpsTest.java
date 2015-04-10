@@ -18,7 +18,7 @@ import jp.t2v.xanadu.model.Hierarchy.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtensionMethod(ListOps.class)
+@ExtensionMethod({OptionalOps.class, ListOps.class, StreamOps.class})
 @RunWith(JUnit4.class)
 public class ListOpsTest {
 
@@ -67,6 +67,20 @@ public class ListOpsTest {
         final List<Optional<B>> list = Arrays.asList(Optional.of(b), Optional.of(b));
         final Optional<List<A>> result = list.sequenceO();
         assertThat(result, is(Optional.of(Arrays.asList(b, b))));
+    }
+
+    // No tail recursion optimization
+    // Toooooo many Autoboxing and Unboxing
+    private Integer factorial(final List<Integer> list, Integer result) {
+        return list.match(
+            ()           -> result,
+            (head, tail) -> factorial(tail, head * result)
+        );
+    }
+
+    public void match() {
+        final int f = factorial(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 1);
+        assertThat(f, is(3628800));
     }
 
 

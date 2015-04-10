@@ -1,14 +1,13 @@
 package jp.t2v.xanadu.ops;
 
+import jp.t2v.xanadu.ds.Tuples.T2;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -77,6 +76,29 @@ public class ListOps {
 
     public <A, B> Optional<List<B>> traverseO(final List<A> self, Function<? super A, Optional<? extends B>> f) {
         return foldLeft(self, Optional.of(new ArrayList<B>()), (acc, e) -> OptionalOps.map2(acc, f.apply(e), (xs, x) -> {xs.add(x); return xs;}));
+    }
+
+    public <A> T2<List<A>, List<A>> partition(final List<? extends A> self, Predicate<? super A> f) {
+        return foldLeft(self, T2.of(new ArrayList<>(), new ArrayList<>()), (t, e) -> {
+            (f.test(e) ? t._1 : t._2).add(e);
+            return t;
+        });
+    }
+
+    public <A, B> T2<List<A>, List<B>> unzip(final List<T2<? extends A, ? extends B>> self) {
+        return foldLeft(self, T2.of(new ArrayList<>(), new ArrayList<>()), (t, e) -> {
+            t._1.add(e._1);
+            t._2.add(e._2);
+            return t;
+        });
+    }
+
+    public <A> IntFunction<Optional<A>> toFunction(final List<? extends A> self) {
+        return i -> 0 <= i && i < self.size() ? Optional.ofNullable(self.get(i)) : Optional.empty();
+    }
+
+    public <A, B> B match(final List<A> self, final Supplier<? extends B> ifEmpty, final BiFunction<? super A, ? super List<A>, ? extends B> nonEmpty) {
+        return self.isEmpty() ? ifEmpty.get() : nonEmpty.apply(self.get(0), self.subList(1, self.size()));
     }
 
 }
