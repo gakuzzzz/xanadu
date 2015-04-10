@@ -1,4 +1,4 @@
-# Xanadu
+# Xanadu [![Build Status](https://travis-ci.org/gakuzzzz/xanadu.svg)](https://travis-ci.org/gakuzzzz/xanadu)
 
 Java8 utilities powered by Lombok
 
