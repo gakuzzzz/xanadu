@@ -21,6 +21,10 @@ public class BiFunctionOps {
         return (a, b) -> f.apply(self.apply(a, b));
     }
 
+    public <A, B, R, S, V> BiFunction<A, B, V> map2(final BiFunction<? super A, ? super B, ? extends R> self, final BiFunction<? super A, ? super B, ? extends S> other, final BiFunction<? super R, ? super S, ? extends V> f) {
+        return (a, b) -> f.apply(self.apply(a, b), other.apply(a, b));
+    }
+
     public <A, B, R, V> BiFunction<A, B, V> flatMap(final BiFunction<? super A, ? super B, ? extends R> self, final Function<? super R, ? extends BiFunction<? super A, ? super B, ? extends V>> f) {
         return (a, b) -> f.apply(self.apply(a, b)).apply(a, b);
     }
