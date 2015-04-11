@@ -69,19 +69,4 @@ public class ListOpsTest {
         assertThat(result, is(Optional.of(Arrays.asList(b, b))));
     }
 
-    // No tail recursion optimization
-    // Toooooo many Autoboxing and Unboxing
-    private Integer factorial(final List<Integer> list, Integer result) {
-        return list.match(
-            ()           -> result,
-            (head, tail) -> factorial(tail, head * result)
-        );
-    }
-
-    public void match() {
-        final int f = factorial(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 1);
-        assertThat(f, is(3628800));
-    }
-
-
 }

@@ -3,10 +3,7 @@ package jp.t2v.xanadu.ops;
 import jp.t2v.xanadu.ds.Tuples.T2;
 import lombok.experimental.UtilityClass;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -95,10 +92,6 @@ public class ListOps {
 
     public <A> IntFunction<Optional<A>> toFunction(final List<? extends A> self) {
         return i -> 0 <= i && i < self.size() ? Optional.ofNullable(self.get(i)) : Optional.empty();
-    }
-
-    public <A, B> B match(final List<A> self, final Supplier<? extends B> ifEmpty, final BiFunction<? super A, ? super List<A>, ? extends B> nonEmpty) {
-        return self.isEmpty() ? ifEmpty.get() : nonEmpty.apply(self.get(0), self.subList(1, self.size()));
     }
 
 }
