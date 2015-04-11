@@ -47,7 +47,7 @@ Add Sonatype snapshot repository and add dependencies.
 ```groovy
 repositories {
     maven {
-        url 'http://oss.sonatype.org/content/repositories/snapshots'
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
     }
 }
 
