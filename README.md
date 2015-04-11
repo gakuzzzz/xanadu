@@ -37,3 +37,26 @@ public class EmployeeFinderService {
 
 }
 ```
+
+## Install
+
+Add Sonatype snapshot repository and add dependencies.
+
+### Using gradle
+
+```groovy
+repositories {
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+dependencies {
+    compile 'jp.t2v:xanadu:0.1.0-SNAPSHOT'
+}
+```
+
+
+## License
+
+This library is released under the Apache Software License, version 2, which should be included with the source in a file named LICENSE.
