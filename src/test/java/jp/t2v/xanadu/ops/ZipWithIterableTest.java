@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtensionMethod(StreamOps.class)
-public class ZipTest {
+public class ZipWithIterableTest {
     @Test
     public void same_size() {
         List<String> self = Arrays.asList("a", "b", "c", "");
