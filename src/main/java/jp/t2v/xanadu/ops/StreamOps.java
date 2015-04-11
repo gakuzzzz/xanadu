@@ -36,4 +36,8 @@ public class StreamOps {
         return toCollection(self, ArrayList::new);
     }
 
+    public <A, B, C> Stream<C> zip(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+        return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
+    }
+
 }
