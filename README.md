@@ -40,7 +40,8 @@ public class EmployeeFinderService {
 
 ## Install
 
-Add Sonatype snapshot repository and add dependencies.
+1. Setup Lombok. see http://projectlombok.org/mavenrepo/index.html
+1. Add Sonatype snapshot repository and add dependencies.
 
 ### Using gradle
 
