@@ -42,11 +42,11 @@ public class StreamOps {
         return StreamSupport.stream(new TakeWhileSpliterator<>(self.spliterator(), predicate), false);
     }
 
-    public <A, B, C> Stream<C> zip(final Stream<A> self, final Stream<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+    public <A, B, C> Stream<C> zipWith(final Stream<A> self, final Stream<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
         return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
     }
 
-    public <A, B, C> Stream<C> zip(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+    public <A, B, C> Stream<C> zipWith(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
         return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
     }
 

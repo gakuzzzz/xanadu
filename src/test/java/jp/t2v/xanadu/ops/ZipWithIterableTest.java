@@ -17,7 +17,7 @@ public class ZipWithIterableTest {
     public void same_size() {
         List<String> self = Arrays.asList("a", "b", "c", "");
         List<Integer> other = Arrays.asList(1, 2, 3, 4);
-        List<String> zipped = self.stream().zip(other, (left, right) -> String.format("%s-%s", left, right)).toList();
+        List<String> zipped = self.stream().zipWith(other, (left, right) -> String.format("%s-%s", left, right)).toList();
         assertThat(zipped, is(Arrays.asList("a-1", "b-2", "c-3", "-4")));
     }
 
@@ -25,7 +25,7 @@ public class ZipWithIterableTest {
     public void terminates_when_other_ends() {
         List<String> self = Arrays.asList("a", "b", "c", "", "e");
         List<Integer> other = Arrays.asList(1, 2, 3);
-        List<String> zipped = self.stream().zip(other, (left, right) -> String.format("%s-%s", left, right)).toList();
+        List<String> zipped = self.stream().zipWith(other, (left, right) -> String.format("%s-%s", left, right)).toList();
         assertThat(zipped, is(Arrays.asList("a-1", "b-2", "c-3")));
     }
 
@@ -33,7 +33,7 @@ public class ZipWithIterableTest {
     public void terminates_when_self_ends() {
         List<String> self = Arrays.asList("a", "b", "c");
         List<Integer> other = Arrays.asList(1, 2, 3, 4, 5);
-        List<String> zipped = self.stream().zip(other, (left, right) -> String.format("%s-%s", left, right)).toList();
+        List<String> zipped = self.stream().zipWith(other, (left, right) -> String.format("%s-%s", left, right)).toList();
         assertThat(zipped, is(Arrays.asList("a-1", "b-2", "c-3")));
     }
 
@@ -42,7 +42,7 @@ public class ZipWithIterableTest {
         List<String> self = Collections.emptyList();
         List<Integer> other = Arrays.asList(1, 2, 3);
         List<String> zipped = self.stream()
-                                  .zip(other, (left, right) -> {
+                                  .zipWith(other, (left, right) -> {
                                       throw new IllegalStateException("never invoked!!");
                                   }).toList();
         assertThat(zipped, is(Collections.emptyList()));
@@ -53,7 +53,7 @@ public class ZipWithIterableTest {
         List<String> self = Arrays.asList("a", "b", "c");
         List<Integer> other = Collections.emptyList();
         List<String> zipped = self.stream()
-                                  .zip(other, (left, right) -> {
+                                  .zipWith(other, (left, right) -> {
                                       throw new IllegalStateException("never invoked!!");
                                   }).toList();
         assertThat(zipped, is(Collections.emptyList()));
