@@ -4,7 +4,9 @@ import lombok.experimental.UtilityClass;
 
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,6 +36,10 @@ public class StreamOps {
 
     public <T> List<T> toList(final Stream<? extends T> self) {
         return toCollection(self, ArrayList::new);
+    }
+
+    public <T> Stream<T> takeWhile(final Stream<T> self, Predicate<? super T> predicate) {
+        return StreamSupport.stream(new TakeWhileSpliterator<>(self.spliterator(), predicate), false);
     }
 
     public <A, B, C> Stream<C> zip(final Stream<A> self, final Stream<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {

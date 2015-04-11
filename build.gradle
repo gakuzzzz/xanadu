@@ -1,9 +1,20 @@
 apply plugin: 'java'
+apply plugin: 'com.bmuschko.nexus'
 
 sourceCompatibility = 1.8
-version = '1.0'
+version = '0.1.0-SNAPSHOT'
+group = 'jp.t2v'
 def srcJava = 'src/main/java'
 def srcDelomboked = 'build/src-delomboked/main/java'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
 
 configurations {
     provided
@@ -47,6 +58,32 @@ javadoc {
         links "http://projectlombok.org/api/"
     }
 }
+
+
+modifyPom {
+    project {
+        url 'https://github.com/gakuzzzz/xanadu'
+        scm {
+            url 'https://github.com/gakuzzzz/xanadu'
+            connection 'scm:git:git@github.com:gakuzzzz/xanadu.git'
+        }
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id 'gakuzzzz'
+                name 'gakuzzzz'
+                url 'https://github.com/gakuzzzz'
+            }
+        }
+    }
+}
+
 
 wrapper {
     gradleVersion = "2.3"
