@@ -31,11 +31,14 @@ public class OptionalOps {
     }
 
     public <A, B> B fold(final Optional<A> self, final Supplier<? extends B> absent, final Function<? super A, ? extends B> present) {
-        return self.map(present).orElseGet(absent);
+    	Optional<B> map = self.map(present);
+        return map.orElseGet(absent);
     }
 
     public <T> Stream<T> stream(final Optional<? extends T> self) {
-        return fold(self, Stream::empty, Stream::of);
+		return OptionalOps.fold(self,
+				(Supplier<Stream<T>>) Stream::empty,
+				(Function<T, Stream<T>>) Stream::of);
     }
 
     public <A> boolean allMatch(final Optional<A> self, final Predicate<? super A> p) {
@@ -54,8 +57,15 @@ public class OptionalOps {
         return traverseL(self, Function.identity());
     }
 
-    public <A, B> List<Optional<B>> traverseL(final Optional<A> self, Function<? super A, ? extends List<? extends B>> f) {
-        return fold(self, ArrayList::new, e -> ListOps.map(f.apply(e), Optional::of));
+    @SuppressWarnings("unchecked")
+	public <A, B> List<Optional<B>> traverseL(final Optional<A> self, Function<? super A, ? extends List<? extends B>> f) {
+		return OptionalOps.<A, List<Optional<B>>>fold(self,
+				(Supplier<? extends List<Optional<B>>>)ArrayList::new,
+				(Function<? super A, ? extends List<Optional<B>>>) (A e) -> {
+		    		return ListOps.<B, Optional<B>>map(
+		    				(List<B>)f.apply(e), // SuppressWarnings List<? extends B> to List<B>
+		    				(Function<B, Optional<B>>) Optional::of);
+		    	});
     }
 
     @SuppressWarnings("unchecked")

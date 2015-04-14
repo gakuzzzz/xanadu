@@ -3,6 +3,7 @@ package jp.t2v.xanadu.ops;
 
 import jp.t2v.xanadu.model.Message;
 import lombok.experimental.ExtensionMethod;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -10,6 +11,7 @@ import org.junit.runners.JUnit4;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.*;
@@ -22,7 +24,11 @@ public class StreamOpsTest {
     @Test
     public void flatMapO() {
         List<Message> messages = Arrays.asList(new Message(Optional.of("a")), new Message(Optional.empty()));
-        List<String> titles = messages.stream().flatMapO(Message::getTitle).collect(Collectors.toList());
+        
+        // FIXME Oops... on Eclipse, cannot infer Parameterized Function from Message::getTitle !
+        List<String> titles = messages.stream().flatMapO(
+            (Function<Message, Optional<? extends String>>) Message::getTitle).collect(Collectors.toList());
+//      List<String> titles = messages.stream().flatMapO(Message::getTitle).collect(Collectors.toList());
         assertThat(titles, is(Arrays.asList("a")));
     }
 

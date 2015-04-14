@@ -5,6 +5,7 @@ import jp.t2v.xanadu.model.Company;
 import jp.t2v.xanadu.model.Employee;
 import jp.t2v.xanadu.model.Message;
 import lombok.experimental.ExtensionMethod;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -13,8 +14,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import jp.t2v.xanadu.model.Hierarchy.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
+import jp.t2v.xanadu.model.Hierarchy.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -25,7 +28,10 @@ public class ListOpsTest {
     @Test
     public void flatMapO() {
         final List<Message> messages = Arrays.asList(new Message(Optional.of("a")), new Message(Optional.empty()));
-        final List<String> titles = messages.flatMapO(Message::getTitle);
+        // FIXME Oops... on Eclipse, cannot infer Parameterized Function from Message::getTitle !
+        final List<String> titles = messages.flatMapO(
+            (Function<Message, Optional<? extends String>>)Message::getTitle);
+//      final List<String> titles = messages.flatMapO(Message::getTitle);
         assertThat(titles, is(Arrays.asList("a")));
     }
 
@@ -36,21 +42,28 @@ public class ListOpsTest {
             new Company(Collections.emptyList()),
             new Company(Arrays.asList(new Employee("c")))
         );
-        final List<Employee> employees = companies.flatMap(Company::getEmployees);
+        // FIXME Oops... on Eclipse, cannot infer Parameterized Function from Company::getEmployees !
+        final List<Employee> employees = companies.flatMap(
+            (Function<Company, Iterable<? extends Employee>>) Company::getEmployees);
+//      final List<Employee> employees = companies.flatMap(Company::getEmployees);
         assertThat(employees, is(Arrays.asList(new Employee("a"), new Employee("b"), new Employee("c"))));
     }
 
     @Test
     public void map() {
         final List<String> strings = Arrays.asList("a", "b", "c");
-        assertThat(strings.map(String::toUpperCase), is(Arrays.asList("A", "B", "C")));
+        // FIXME Oops... on Eclipse, cannot infer Parameterized Function from String::toUpperCase !
+        assertThat(strings.map((Function<String, String>)String::toUpperCase), is(Arrays.asList("A", "B", "C")));
+//        assertThat(strings.map(String::toUpperCase), is(Arrays.asList("A", "B", "C")));
     }
 
     @Test
     public void map2() {
         final List<String> strings1 = Arrays.asList("a", "b", "c");
         final List<String> strings2 = Arrays.asList("A", "B", "C");
-        assertThat(strings1.map2(strings2, (a, b) -> a + b), is(Arrays.asList("aA", "aB", "aC", "bA", "bB", "bC", "cA", "cB", "cC")));
+        // FIXME Oops... on Eclipse, cannot infer Parameterized BiFunction from lambda !
+        assertThat(strings1.map2(strings2, (BiFunction<String, String, String>) (a, b) -> a + b), is(Arrays.asList("aA", "aB", "aC", "bA", "bB", "bC", "cA", "cB", "cC")));
+//        assertThat(strings1.map2(strings2, (a, b) -> a + b), is(Arrays.asList("aA", "aB", "aC", "bA", "bB", "bC", "cA", "cB", "cC")));
     }
 
     @Test
