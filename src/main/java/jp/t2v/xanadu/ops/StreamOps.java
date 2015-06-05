@@ -4,13 +4,13 @@ import lombok.experimental.UtilityClass;
 
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import jp.t2v.xanadu.ops.Spliterators.*;
 
 /**
  * This class is expected that is is used with @ExtensionMethod.
@@ -38,7 +38,7 @@ public class StreamOps {
         return toCollection(self, ArrayList::new);
     }
 
-    public <T> Stream<T> takeWhile(final Stream<T> self, Predicate<? super T> predicate) {
+    public <T> Stream<T> takeWhile(final Stream<? extends T> self, Predicate<? super T> predicate) {
         return StreamSupport.stream(new TakeWhileSpliterator<>(self.spliterator(), predicate), false);
     }
 
@@ -46,7 +46,7 @@ public class StreamOps {
         return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
     }
 
-    public <A, B, C> Stream<C> zipWith(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
+    public <A, B, C> Stream<C> zipWithI(final Stream<A> self, final Iterable<B> other, final BiFunction<? super A, ? super B, ? extends C> f) {
         return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
     }
 
