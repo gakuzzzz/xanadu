@@ -36,7 +36,7 @@ public class ListOpsTest {
             new Company(Collections.emptyList()),
             new Company(Arrays.asList(new Employee("c")))
         );
-        final List<Employee> employees = companies.flatMap(Company::getEmployees);
+        final List<Employee> employees = companies.<Company, Employee, List<Employee>>flatMap(Company::getEmployees);
         assertThat(employees, is(Arrays.asList(new Employee("a"), new Employee("b"), new Employee("c"))));
     }
 

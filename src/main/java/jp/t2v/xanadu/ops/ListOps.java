@@ -94,4 +94,16 @@ public class ListOps {
         return i -> 0 <= i && i < self.size() ? Optional.ofNullable(self.get(i)) : Optional.empty();
     }
 
+    public <A extends Comparable<? super A>> void destructiveSort(final List<A> self) {
+        Collections.sort(self);
+    }
+
+    public <A> void destructiveSortWith(final List<A> self, final Comparator<? super A> c) {
+        Collections.sort(self, c);
+    }
+
+    public <A, B extends Comparable<? super B>> void destructiveSortBy(final List<A> self, final Function<? super A, ? extends B> f) {
+        Collections.sort(self, Comparator.comparing(f));
+    }
+
 }

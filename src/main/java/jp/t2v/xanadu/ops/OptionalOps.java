@@ -31,7 +31,7 @@ public class OptionalOps {
     }
 
     public <A, B> B fold(final Optional<A> self, final Supplier<? extends B> absent, final Function<? super A, ? extends B> present) {
-        return self.map(present).orElseGet(absent);
+        return self.<B>map(present).orElseGet(absent);
     }
 
     public <T> Stream<T> stream(final Optional<? extends T> self) {
