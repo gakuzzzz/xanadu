@@ -50,8 +50,8 @@ public class StreamOps {
         return StreamSupport.stream(new ZipSpliterator<>(self.spliterator(), other.spliterator(), f), false);
     }
 
-    public <E> Stream<List<E>> chunked(Stream<E> in, int size) {
-        return StreamSupport.stream(new ChunkedSpliterator<>(in.spliterator(), size), false);
+    public <E> Stream<List<E>> chunked(Stream<E> self, int size) {
+        return StreamSupport.stream(new ChunkedSpliterator<>(self.spliterator(), size), false);
     }
 
 }

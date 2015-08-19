@@ -65,8 +65,7 @@ class Spliterators {
         }
     }
 
-    static class ChunkedSpliterator<E> extends AbstractSpliterator<List<E>>
-    {
+    static class ChunkedSpliterator<E> extends AbstractSpliterator<List<E>> {
         private final Spliterator<E> spliterator;
         private final int partitionSize;
 
